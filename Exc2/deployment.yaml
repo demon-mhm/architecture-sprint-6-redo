@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memory-scalable-pod-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memory-scalable-pod
+  template:
+    metadata:
+      labels:
+        app: memory-scalable-pod
+    spec:
+      containers:
+        - name: workload
+          image: shestera/scaletestapp
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              memory: "10Mi"
+            limits:
+              memory: "20Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rps-scalable-pod-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rps-scalable-pod
+  template:
+    metadata:
+      labels:
+        app: rps-scalable-pod
+    spec:
+      containers:
+        - name: workload
+          image: shestera/scaletestapp
+          ports:
+            - containerPort: 8080
+              name: http
